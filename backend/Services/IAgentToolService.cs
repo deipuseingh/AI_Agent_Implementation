@@ -8,6 +8,9 @@ public interface IAgentToolService
     // Task 1: Check real-time order status
     Task<string> CheckOrderStatusAsync(int orderId);
 
+    // Task 1.5: Find order by product name
+    Task<string> FindOrderByProductNameAsync(string productName);
+
     // Task 2: Handle cancellations
     Task<string> CancelOrderAsync(int orderId);
 

@@ -9,7 +9,7 @@ This is a **complete, production-ready foundation** for an agentic AI e-commerce
 #### Backend (ASP.NET Core 8.0)
 
 - ✅ Full project structure with clean architecture
-- ✅ Entity Framework Core with SQL Server integration
+- ✅ Entity Framework Core with SQLite integration
 - ✅ 4 Data Models: Product, Order, OrderItem, User
 - ✅ Database seeding with 10 products and sample orders
 - ✅ 3 API Controllers: Products, Orders, Chat
@@ -52,25 +52,25 @@ This is a **complete, production-ready foundation** for an agentic AI e-commerce
 Agentic Ai/
 ├── 📁 backend/                          # ASP.NET Core API
 │   ├── 📁 Models/
-│   │   ├── Product.cs                   # Product model
-│   │   ├── Order.cs                     # Order model
-│   │   ├── OrderItem.cs                 # Line item model
-│   │   └── User.cs                      # User model
+│   │   ├── Product.cs                   # Schema for inventory items and pricing
+│   │   ├── Order.cs                     # Tracks order state, totals, and user relationships
+│   │   ├── OrderItem.cs                 # Individual line items tied to an Order
+│   │   └── User.cs                      # Schema for customer account data
 │   ├── 📁 Controllers/
-│   │   ├── ProductsController.cs        # Product endpoints
-│   │   ├── OrdersController.cs          # Order endpoints
-│   │   └── ChatController.cs            # Chat endpoints
+│   │   ├── ProductsController.cs        # REST endpoints for retrieving catalog items
+│   │   ├── OrdersController.cs          # REST endpoints for creating, cancelling, and querying orders
+│   │   └── ChatController.cs            # Receives prompt input and routes it to the AI Agent
 │   ├── 📁 Services/
-│   │   ├── IAgentToolService.cs         # Tool interface
-│   │   ├── AgentToolService.cs          # Tool implementation
-│   │   ├── IAgentService.cs             # Agent interface
-│   │   └── AgentService.cs              # Agent implementation
+│   │   ├── IAgentToolService.cs         # Defines DB functions exposed to the LLM (Cancel, Refund, etc.)
+│   │   ├── AgentToolService.cs          # Implements business logic and DB updates for AI tool calls
+│   │   ├── IAgentService.cs             # Interface for the main chat processing loop
+│   │   └── AgentService.cs              # Orchestrates Semantic Kernel, builds system prompts, calls LLM
 │   ├── 📁 Data/
-│   │   └── ECommerceDbContext.cs        # Database context
+│   │   └── ECommerceDbContext.cs        # EF Core configuration, entity relationships, and seed data
 │   ├── 📁 DTOs/
-│   │   └── Dtos.cs                      # Data transfer objects
+│   │   └── Dtos.cs                      # Request/Response models used for API payload validation
 │   ├── ECommerceApi.csproj              # Project file
-│   ├── Program.cs                       # Startup configuration
+│   ├── Program.cs                       # Entry point, Dependency Injection, SQLite connection, & CORS setup
 │   ├── appsettings.json                 # Settings
 │   ├── appsettings.Development.json     # Dev settings
 │   └── .env.example                     # Environment template
@@ -78,11 +78,12 @@ Agentic Ai/
 ├── 📁 frontend/                         # React App
 │   ├── 📁 src/
 │   │   ├── 📁 components/
-│   │   │   ├── ProductCatalog.jsx       # Product grid
-│   │   │   └── ChatInterface.jsx        # Chat UI
+│   │   │   ├── ProductCatalog.jsx       # Fetches products and handles 'Add to Cart' actions
+│   │   │   ├── ChatInterface.jsx        # Renders chat history, message inputs, and Generative UI menus
+│   │   │   └── MyOrders.jsx             # Displays the authenticated user's order history and status
 │   │   ├── 📁 services/
-│   │   │   └── apiClient.js             # API communication
-│   │   ├── App.jsx                      # Main component
+│   │   │   └── apiClient.js             # Standardized fetch wrappers for backend API communication
+│   │   ├── App.jsx                      # Main React shell, manages global state (Cart, View Routing)
 │   │   ├── index.jsx                    # Entry point
 │   │   └── index.css                    # Tailwind CSS
 │   ├── index.html                       # HTML template
@@ -118,7 +119,7 @@ Agentic Ai/
    - Entity Framework Core with migrations
    - Relational schema with foreign keys
    - Data seeding with 12 records
-   - Support for SQL Server and PostgreSQL
+   - SQLite local database support
 
 3. **AI Agent Architecture**
    - Tool service interface for extensibility
@@ -170,7 +171,7 @@ Agentic Ai/
 | ASP.NET Core          | 8.0     | Web framework       |
 | Entity Framework Core | 8.0     | ORM                 |
 | Semantic Kernel       | 1.0+    | AI orchestration    |
-| SQL Server            | 2019+   | Database            |
+| SQLite                | 3       | Database            |
 | Swagger/OpenAPI       | 6.5     | API documentation   |
 
 ### Frontend
@@ -188,7 +189,7 @@ Agentic Ai/
 | Service    | Purpose              |
 | ---------- | -------------------- |
 | OpenAI API | LLM for AI agent     |
-| LocalDB    | Development database |
+| SQLite     | Development database |
 
 ---
 
@@ -407,9 +408,7 @@ curl -X POST https://localhost:5001/api/chat/init
 **Backend won't start**
 
 ```bash
-# Check LocalDB
-sqllocaldb info
-sqllocaldb start mssqllocaldb
+# Ensure migrations have been applied: dotnet ef database update
 
 # Check port isn't in use
 netstat -ano | findstr :5001

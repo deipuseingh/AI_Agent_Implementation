@@ -109,7 +109,7 @@ Each tool must be defined with:
 dotnet new webapi -n ECommerceApi
 cd ECommerceApi
 dotnet add package Microsoft.EntityFrameworkCore
-dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+dotnet add package Microsoft.EntityFrameworkCore.Sqlite
 dotnet add package Microsoft.SemanticKernel
 ```
 

@@ -3,10 +3,10 @@
 ## Complete System Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                           USER INTERACTION LAYER                            │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                              │
+┌────────────────────────────────────────────────────────────────────────────┐
+│                           USER INTERACTION LAYER                           │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
 │  ┌──────────────────────────┐          ┌──────────────────────────┐        │
 │  │   Product Catalog Page   │          │    Chat Interface Page   │        │
 │  │                          │          │                          │        │
@@ -15,95 +15,95 @@
 │  │  • Stock Status          │          │  • Input Field           │        │
 │  │  • Add to Cart           │          │  • Send Button           │        │
 │  └──────────────────────────┘          └──────────────────────────┘        │
-│                                                                              │
+│                                                                            │
 │  ┌──────────────────────────────────────────────────────────────┐          │
 │  │              Shopping Cart (Persistent Sidebar)              │          │
-│  │  • Item List with Quantities                                │          │
+│  │  • Item List with Quantities                                 │          │
 │  │  • Remove Items                                              │          │
 │  │  • Total Calculation                                         │          │
 │  │  • Checkout Button                                           │          │
 │  └──────────────────────────────────────────────────────────────┘          │
-│                                                                              │
+│                                                                            │
 │  ┌──────────────────────────────────────────────────────────────┐          │
 │  │         Navigation Bar (Products / Support Chat)             │          │
 │  └──────────────────────────────────────────────────────────────┘          │
-│                                                                              │
-└─────────────────────────────────────────────────────────────────────────────┘
+│                                                                            │
+└────────────────────────────────────────────────────────────────────────────┘
                                     ↕ HTTP/REST
                               (axios / fetch API)
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                         BACKEND API LAYER (ASP.NET Core)                    │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                              │
-│  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐        │
-│  │ ProductsCtrl     │  │   OrdersCtrl     │  │  ChatController  │        │
-│  │                  │  │                  │  │                  │        │
-│  │ GET /products    │  │ GET /orders/{id} │  │ POST /chat       │        │
-│  │ POST /products   │  │ POST /orders     │  │ POST /chat/init  │        │
-│  └──────────────────┘  │ POST /cancel     │  └──────────────────┘        │
-│                        │ POST /refund     │                              │
-│                        └──────────────────┘                              │
-│                                                                              │
+┌────────────────────────────────────────────────────────────────────────────┐
+│                         BACKEND API LAYER (ASP.NET Core)                   │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐          │
+│  │ ProductsCtrl     │  │   OrdersCtrl     │  │  ChatController  │          │
+│  │                  │  │                  │  │                  │          │
+│  │ GET /products    │  │ GET /orders/{id} │  │ POST /chat       │          │
+│  │ POST /products   │  │ POST /orders     │  │ POST /chat/init  │          │
+│  └──────────────────┘  │ POST /cancel     │  └──────────────────┘          │
+│                        │ POST /refund     │                                │
+│                        └──────────────────┘                                │
+│                                                                            │
 │  ┌────────────────────────────────────────────────────────────────┐        │
 │  │                    SERVICE LAYER                               │        │
 │  │                                                                │        │
-│  │  ┌──────────────────────────┐  ┌──────────────────────────┐  │        │
-│  │  │  IAgentToolService       │  │   IAgentService          │  │        │
-│  │  │                          │  │                          │  │        │
-│  │  │ • CheckOrderStatus()     │  │ • ProcessMessage()       │  │        │
-│  │  │ • CancelOrder()          │  │ • HandleToolCall()       │  │        │
-│  │  │ • ProcessRefund()        │  │ • GenerateResponse()     │  │        │
-│  │  │ • ListProducts()         │  │                          │  │        │
-│  │  │ • DisplayActionMenu()    │  │                          │  │        │
-│  │  └──────────────────────────┘  └──────────────────────────┘  │        │
+│  │  ┌──────────────────────────┐  ┌──────────────────────────┐    │        │
+│  │  │  IAgentToolService       │  │   IAgentService          │    │        │
+│  │  │                          │  │                          │    │        │
+│  │  │ • CheckOrderStatus()     │  │ • ProcessMessage()       │    │        │
+│  │  │ • CancelOrder()          │  │ • HandleToolCall()       │    │        │
+│  │  │ • ProcessRefund()        │  │ • GenerateResponse()     │    │        │
+│  │  │ • ListProducts()         │  │                          │    │        │
+│  │  │ • DisplayActionMenu()    │  │                          │    │        │
+│  │  └──────────────────────────┘  └──────────────────────────┘    │        │
 │  │                                                                │        │
 │  └────────────────────────────────────────────────────────────────┘        │
-│                                                                              │
+│                                                                            │
 │  ┌────────────────────────────────────────────────────────────────┐        │
-│  │         SEMANTIC KERNEL + OPENAI INTEGRATION (Phase 3)        │        │
+│  │         SEMANTIC KERNEL + OPENAI INTEGRATION (Phase 3)         │        │
 │  │                                                                │        │
 │  │  • LLM Connector (OpenAI)                                      │        │
-│  │  • Function Definition Manager                                │        │
+│  │  • Function Definition Manager                                 │        │
 │  │  • Tool Call Router                                            │        │
-│  │  • Conversation Loop Manager                                  │        │
+│  │  • Conversation Loop Manager                                   │        │
 │  │  • Prompt Engineering                                          │        │
 │  │                                                                │        │
 │  └────────────────────────────────────────────────────────────────┘        │
-│                                                                              │
+│                                                                            │
 │  ┌────────────────────────────────────────────────────────────────┐        │
-│  │             ENTITY FRAMEWORK CORE (Data Access)               │        │
+│  │             ENTITY FRAMEWORK CORE (Data Access)                │        │
 │  │                                                                │        │
-│  │  DbContext: ECommerceDbContext                                │        │
-│  │  • DbSet<Product>  DbSet<Order>  DbSet<OrderItem>            │        │
+│  │  DbContext: ECommerceDbContext                                 │        │
+│  │  • DbSet<Product>  DbSet<Order>  DbSet<OrderItem>              │        │
 │  │  • DbSet<User>                                                 │        │
 │  │  • Migrations Management                                       │        │
 │  │  • Query Execution                                             │        │
 │  │                                                                │        │
 │  └────────────────────────────────────────────────────────────────┘        │
-│                                                                              │
+│                                                                             │
 └─────────────────────────────────────────────────────────────────────────────┘
                                     ↕ SQL
                          (Parameterized Queries)
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                    DATABASE LAYER (SQL Server / PostgreSQL)                 │
+│                    DATABASE LAYER (SQLite)                                  │
 ├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                              │
-│  ┌─────────────┐  ┌──────────────┐  ┌──────────────┐  ┌─────────────────┐ │
-│  │    Users    │  │   Products   │  │    Orders    │  │   OrderItems    │ │
-│  │             │  │              │  │              │  │                 │ │
-│  │ • Id        │  │ • Id         │  │ • Id         │  │ • Id            │ │
-│  │ • Email     │  │ • Name       │  │ • UserId(FK) │  │ • OrderId(FK)   │ │
-│  │ • Name      │  │ • Price      │  │ • Status     │  │ • ProductId(FK) │ │
-│  │ • Phone     │  │ • Stock      │  │ • Dates      │  │ • Quantity      │ │
-│  │ • CreatedAt │  │ • CreatedAt  │  │ • Amount     │  │ • UnitPrice     │ │
-│  │             │  │              │  │              │  │                 │ │
-│  │ (2 records) │  │ (10 records) │  │ (2 records)  │  │ (3 records)     │ │
-│  └─────────────┘  └──────────────┘  └──────────────┘  └─────────────────┘ │
-│                                                                              │
-│  Foreign Keys: Orders.UserId → Users.Id                                    │
-│                OrderItems.OrderId → Orders.Id                              │
-│                OrderItems.ProductId → Products.Id                          │
-│                                                                              │
+│                                                                             │
+│  ┌─────────────┐  ┌──────────────┐  ┌──────────────┐  ┌─────────────────┐   │
+│  │    Users    │  │   Products   │  │    Orders    │  │   OrderItems    │   │
+│  │             │  │              │  │              │  │                 │   │
+│  │ • Id        │  │ • Id         │  │ • Id         │  │ • Id            │   │ 
+│  │ • Email     │  │ • Name       │  │ • UserId(FK) │  │ • OrderId(FK)   │   │ 
+│  │ • Name      │  │ • Price      │  │ • Status     │  │ • ProductId(FK) │   │
+│  │ • Phone     │  │ • Stock      │  │ • Dates      │  │ • Quantity      │   │
+│  │ • CreatedAt │  │ • CreatedAt  │  │ • Amount     │  │ • UnitPrice     │   │
+│  │             │  │              │  │              │  │                 │   │
+│  │ (2 records) │  │ (10 records) │  │ (2 records)  │  │ (3 records)     │   │
+│  └─────────────┘  └──────────────┘  └──────────────┘  └─────────────────┘   │
+│                                                                             │
+│  Foreign Keys: Orders.UserId → Users.Id                                     │
+│                OrderItems.OrderId → Orders.Id                               │
+│                OrderItems.ProductId → Products.Id                           │ 
+│                                                                             │
 └─────────────────────────────────────────────────────────────────────────────┘
                                     ↕ API
                          (Function Calling)
@@ -392,6 +392,13 @@ App (Main Shell)
 │   │   │       ├── StockStatus
 │   │   │       └── AddToCartButton
 │   │   └── Error/Loading States
+│   │
+│   ├── MyOrders (when "My Orders" tab active)
+│   │   └── OrderCard[] (repeating)
+│   │       ├── OrderID
+│   │       ├── OrderStatus
+│   │       ├── TotalAmount
+│   │       └── OrderItemsList
 │   │
 │   └── ChatInterface (when "Support Chat" tab active)
 │       ├── MessagesContainer

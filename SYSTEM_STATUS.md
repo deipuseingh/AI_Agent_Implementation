@@ -13,7 +13,7 @@ A fully functional e-commerce platform with AI-powered customer support that ena
 
 ## ✅ Completed Features
 
-### 1. **Backend API** (ASP.NET Core 10 + SQLite)
+### 1. **Backend API** (ASP.NET Core 8.0 + SQLite)
 
 **Running on:** `http://localhost:5000`
 
@@ -242,7 +242,7 @@ Create `backend/appsettings.Development.json`:
 └─────────────────┬──────────────────────────┘
                   │ HTTP API (localhost:5000)
 ┌─────────────────▼──────────────────────────┐
-│ Backend (ASP.NET Core 10)                  │
+│ Backend (ASP.NET Core 8.0)                 │
 │  - OrdersController (CRUD + Cancel/Refund)│
 │  - ProductsController (Browse)             │
 │  - ChatController (AI Agent)               │
@@ -279,4 +279,4 @@ Create `backend/appsettings.Development.json`:
 
 ---
 
-_System configured and tested on Windows with .NET 10 and Node.js_
+_System configured and tested on Windows with .NET 8.0 and Node.js_

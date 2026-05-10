@@ -6,7 +6,7 @@ Get up and running with the AI agent e-commerce system in 15 minutes.
 
 - .NET 8.0 SDK
 - Node.js 18+ with npm
-- SQL Server (LocalDB)
+- SQLite (auto-created via EF Core)
 - OpenAI API key
 
 ## Quick Start
@@ -114,12 +114,9 @@ frontend/
 ### Backend won't start
 
 ```bash
-# Check if LocalDB is running
-sqllocaldb info
-
-# Restart LocalDB if needed
-sqllocaldb stop mssqllocaldb
-sqllocaldb start mssqllocaldb
+# Database issues usually indicate missing migrations
+# Run the following from the backend directory:
+dotnet ef database update
 ```
 
 ### Frontend can't connect to backend

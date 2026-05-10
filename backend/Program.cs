@@ -3,6 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using ECommerceApi.Data;
 using ECommerceApi.Services;
+using Microsoft.SemanticKernel;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +38,13 @@ builder.Services.AddDbContext<ECommerceDbContext>(options =>
 builder.Services.AddScoped<IAgentToolService, AgentToolService>();
 builder.Services.AddScoped<IAgentService, AgentService>();
 builder.Services.AddLogging();
+
+#pragma warning disable SKEXP0070
+// Add Semantic Kernel and configure Google Gemini Chat Completion
+var geminiKey = builder.Configuration["Gemini:ApiKey"] ?? Environment.GetEnvironmentVariable("GEMINI_API_KEY") ?? "your-new-gemini-key-here";
+builder.Services.AddKernel()
+    .AddGoogleAIGeminiChatCompletion("gemini-3-flash-preview", geminiKey);
+#pragma warning restore SKEXP0070
 
 var app = builder.Build();
 

@@ -8,7 +8,7 @@ A complete implementation of an agentic AI e-commerce system with function calli
 
 1. **Frontend (React/Next.js)**: Sandbox UI with product catalog and persistent chat window
 2. **Backend (ASP.NET Core)**: Core API managing products, orders, users, and AI operations
-3. **Database (SQL Server/PostgreSQL)**: Relational database for order state management
+3. **Database (SQLite)**: Relational database for order state management
 4. **AI Agent Layer (Semantic Kernel)**: Intelligent layer using function calling with OpenAI GPT-4o
 
 ## 🚀 Features
@@ -50,7 +50,7 @@ A complete implementation of an agentic AI e-commerce system with function calli
 
 - **Framework**: ASP.NET Core 8.0
 - **ORM**: Entity Framework Core 8.0
-- **Database**: SQL Server (localdb) or PostgreSQL
+- **Database**: SQLite
 - **AI Framework**: Microsoft Semantic Kernel
 - **LLM Provider**: OpenAI API (GPT-4o)
 
@@ -68,7 +68,7 @@ A complete implementation of an agentic AI e-commerce system with function calli
 
 - .NET 8.0 SDK
 - Node.js 18+
-- SQL Server (localdb) or PostgreSQL
+- SQLite (Supported out-of-the-box by EF Core)
 - OpenAI API key
 
 ### Backend Setup
@@ -266,10 +266,11 @@ The AI agent operates under a strict system prompt that defines:
 
 ### Frontend Components
 
-- **App.jsx**: Main application shell with navigation
-- **ProductCatalog.jsx**: Grid of products with Add to Cart
-- **ChatInterface.jsx**: Message display with action menu rendering
-- **apiClient.js**: API communication service
+- **App.jsx**: Main application shell, top-level state management (Cart, Views), and view routing.
+- **ProductCatalog.jsx**: Grid of products fetched from the backend with "Add to Cart" triggers.
+- **ChatInterface.jsx**: Renders AI message history, inputs, and parses generative UI action menus.
+- **MyOrders.jsx**: Renders the user's previously placed orders and triggers support chat views.
+- **apiClient.js**: API communication service centralizing all frontend REST requests.
 
 ### Features
 
